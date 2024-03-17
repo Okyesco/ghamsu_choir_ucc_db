@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="{% static 'attendance.css' %}">
+
+</head>
+<body style="background:  url('{% static '/IMG-20240309-WA0014.jpg' %}')center/cover no-repeat fixed;">
+    <form onsubmit="submitForm(); return false;" method="post" action="{% url 'attendance' %}">
+        {% csrf_token %}
+        <h1 id="head">Attendance.</h1>
+        <h5>*Please Submit Your Id</h5>
+
+        {% for message in messages %}
+            {% if 'success' in message.tags %}
+                <p style="color: green;justify-content: center ; display: flex;align-items: center">{{ message }}</p>
+            {% else %}
+                <p style="color: red;justify-content: center ; display: flex;align-items: center">{{ message }}</p>
+            {% endif %}
+
+        {% endfor %}
+
+
+        <label for="choirsterID" id="choirsterIDLabel">Choirster ID:</label>
+        <input type="text" id="choirsterID" name="choirsterID" required>
+
+
+
+         <label for="Activity">select activity:</label>
+        <select id="Activity" name="Activity" required>
+            <option value="*">*********</option>
+            <option value="Rehearsal">Rehearsal</option>
+            <option value="Prayer_Meeting">Prayer Meeting</option>
+            <option value="Midweek_service">Midweek service</option>
+            <option value="other">others</option>
+
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

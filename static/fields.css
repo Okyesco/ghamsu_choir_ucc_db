@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    height: 100vh;  
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #7e3c9c;
+}
+
+select, input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    border-color: #a2d2a4;
+}
+
+select:focus, input:focus {
+    border-color: #ecd909;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #7e3c9c;
+}
+
+#GHAMSU {
+    justify-content: center;
+    color: #7e3c9c;
+    display: flex;
+}
+
+#notice {
+    justify-content: center;
+    display: flex;
+    font-style: italic;
+}
+
+select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 8px;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237E3C9C" width="18px" height="18px"><path d="M7 10l5 5 5-5z" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select option {
+    background-color: #fff;
+    color: #333;
+}
+#home{
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-decoration: none;
+    justify-content: right;
+    border: 2px solid black;
+}
+#home:hover{
+    background-color: #4caf50;
+    color: white;
+}
+input[type="date"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 8px;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237E3C9C" width="18px" height="18px"><path d="M7 10l5 5 5-5z" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+input[type="date"]::-ms-expand {
+    display: none;
+}

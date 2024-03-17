@@ -1,0 +1,136 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    /*background: url('/IMG-20240309-WA0014.jpg') center/cover no-repeat fixed;*/
+    height: 100vh;
+}
+
+form {
+    max-width: 400px;
+    width: 90%; 
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5ebeb;
+}
+
+h5 {
+    padding-left: 5%; 
+    font-style: italic;
+}
+
+h1 {
+    text-align: center;
+    color: #8f4fcf;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #f7bb07;
+    font-weight: bolder;
+}
+
+select,input {
+    width: calc(100% - 20px); 
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #7e3c9c;
+}
+
+
+select:focus, input:focus {
+    border-color: #ecd909;
+
+}
+
+
+
+select::-ms-expand {
+    display: none;
+}
+
+select option {
+    background-color: #fff;
+    color: #333;
+}
+
+input[type="date"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 8px;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237E3C9C" width="18px" height="18px"><path d="M7 10l5 5 5-5z" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+input[type="date"]::-ms-expand {
+    display: none;
+}
+
+
+button {
+    background-color: #8f4fcf;
+    color: #ffffff;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 50%; 
+    margin-left: 0; 
+    font-weight: bolder;
+}
+
+button:hover {
+    background-color: #e3bb08;
+}
+
+@media only screen and (max-width: 600px) {
+    form {
+        width: 90%;
+        padding: 10px;
+    }
+
+    input {
+        width: 90%;
+    }
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+    width: calc(100% - 20px); /* Adjust the width as needed */
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+#Activity {
+    width: calc(100% - 20px); /* Adjust the width as needed */
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}

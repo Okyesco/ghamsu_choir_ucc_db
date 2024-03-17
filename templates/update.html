@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE</title>
+    <link rel="stylesheet" href="{% static 'update.css' %}">
+
+</head>
+<body style="background: url('{% static 'IMG-20240309-WA0015.jpg' %}') center/cover no-repeat;">
+    <form onsubmit="submitForm(); return false;" method="post" action="{% url 'update' %}">
+        {% csrf_token %}
+        <h1 id="head">Update All Your Necessary Information</h1>
+
+        {% for message in messages %}
+        <p style="color: red;justify-content: center ; display: flex;align-items: center">{{ message }}</p>
+        {% endfor %}
+
+        <label for="choirsterID" id="choirsterIDLabel">Choirster ID:</label>
+        <input type="text" id="choirsterID" name="choirsterID" required>
+        <label for="dropdownMenu" id="select">Select the field you want to update:</label>
+        <select id="dropdownMenu" name="dropdownMenu" required>
+            <option value="*">**********</option>
+            <option value="name">Full Name</option>
+            <option value="program">Program of Study</option>
+            <option value="location">Campus Location</option>
+            <option value="activeCallNumber">Active Call Number</option>
+            <option value="whatsapp_number">Active Whatsapp Number</option>
+            <option value="circuit">Circuit</option>
+            <option value="diocese">Diocese</option>
+        </select>
+
+        <label for="userInput" id="new">New input:</label>
+        <input type="text" id="userInput" name="userInput" required>
+
+
+        <button type="submit">Submit</button>
+    </form>
+{#    <script src="{% static 'update.js' %}"></script>#}
+</body>
+</html>

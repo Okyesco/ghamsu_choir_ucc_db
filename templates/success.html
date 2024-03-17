@@ -1,0 +1,18 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Successful</title>
+    <link rel="stylesheet" href="{% static 'successful.css' %}">
+</head>
+<body style="background: url('{% static '/IMG-20240309-WA0012.jpg' %}') center/cover no-repeat fixed;">
+    <div class="container">
+        <h1>Hello, <span style="color: #f5dd5d">{{ member }}</span></h1>
+        <h1>Your Information has been submitted successfully</h1>
+        <a href="{% url 'home' %}" id="Home">Home</a>
+    </div>
+</body>
+</html>

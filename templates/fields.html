@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choir Member Information</title>
+    <link rel="stylesheet" href="{% static 'fields.css' %}">
+</head>
+<body>
+    <form id="choirForm" onsubmit="validateForm(event)" method="post" action="{% url 'form' %}">
+        {% csrf_token %}
+        <h1 id="GHAMSU">GHAMSU CHOIR</h1>
+        <h4 id="notice" >Please Make Sure You Fill All The Fields</h4>
+        <a href="{% url 'home' %}" id="home" >HOME </a><br><br><br><br>
+
+
+        {% for message in messages %}
+        <p style="color: red;justify-content: center ; display: flex;align-items: center">{{ message }}</p>
+        {% endfor %}
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+    <label for="Level">Select Your Level:</label>
+        <select id="Level" name="Level" required>
+            <option value="*">*********</option>
+
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+        </select>
+
+    <label for="Level">Select Your Level Of Completion:</label>
+        <select id="Level" name="Level_of_completion" required>
+            <option value="*">*********</option>
+            <option value="400">400</option>
+            <option value="600">600</option>
+        </select>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        
+        <label for="parts">Parts You Sing:</label>
+        <select id="parts" name="parts" required>
+            <option value="*">*********</option>
+
+            <option value="tenor">Tenor</option>
+            <option value="soprano">Soprano</option>
+            <option value="alto">Alto</option>
+            <option value="bass">Bass</option>
+        </select>
+        <label for="program">Program of Study:</label>
+        <input type="text" id="program" name="program" required>
+
+        <label for="HostelAreag">Hostel Area:</label>
+        <input type="text" id="HostelAreag" name="HostelArea" required>
+
+        <label for="hallOfResidence">Hall of Residence:</label>
+        <input type="text" id="hallOfResidence" name="hallOfResidence" required>
+
+        <label for="activeCallNumber">Active Call Number:</label>
+        <input type="tel" id="activeCallNumber" name="activeCallNumber" required>
+
+        <label for="activeWhatsappNumber">Active Whatsapp Number:</label>
+        <input type="tel" id="activeWhatsappNumber" name="activeWhatsappNumber" required>
+
+        <label for="society">Which Society do you belong?:</label>
+        <input type="text" id="society" name="society" required>
+
+        <label for="circuit">Which Circuit do you belong?:</label>
+        <input type="text" id="circuit" name="circuit" required>
+
+        <label for="Diocese">Which Diocese do you belong?:</label>
+        <input type="text" id="Diocese" name="Diocese" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+{#    <script src="{% static 'fields.js' %}"></script>#}
+</body>
+</html>

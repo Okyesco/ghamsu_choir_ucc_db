@@ -1,0 +1,44 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    /*background: url('/IMG-20240309-WA0012.jpg') center/cover no-repeat fixed;*/
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #f4f4f4;
+}
+
+#Home {
+    background-color: blueviolet;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #fff;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+    #Home {
+        margin-top: 10px;
+    }
+}
+#Home:hover {
+    background-color: #f4f4f4;
+    color: blueviolet;
+}

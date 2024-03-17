@@ -1,0 +1,116 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    /*background: url('/IMG-20240309-WA0015.jpg') center/cover no-repeat fixed;*/
+    height: 100vh;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5ebeb;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+button {
+    background-color: #8f4fcf;
+    color: #fff;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-left: 150px;
+}
+select:focus, input:focus {
+    border-color: #ecd909;
+}
+
+button:hover {
+    background-color: #e3d508;
+}
+
+#head{
+    color: #8f4fcf;
+    font-style: oblique;
+}
+#new,
+#select,
+#choirsterIDLabel {
+    color: #aba003;
+    font-weight: bolder;
+}
+select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 8px;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237E3C9C" width="18px" height="18px"><path d="M7 10l5 5 5-5z" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select option {
+    background-color: #fff;
+    color: #333;
+}
+
+input[type="date"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 8px;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237E3C9C" width="18px" height="18px"><path d="M7 10l5 5 5-5z" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+input[type="date"]::-ms-expand {
+    display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+    form {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    input,
+    select {
+        width: 100%;
+    }
+}
