@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'attendance.css' %}">
 
 </head>
-<body style="background:  url('{% static '/IMG-20240309-WA0014.jpg' %}')center/cover no-repeat fixed;">
+<body style="background:  url('{% static 'IMG-20240309-WA0014.jpg' %}')center/cover no-repeat fixed;">
     <form onsubmit="submitForm(); return false;" method="post" action="{% url 'attendance' %}">
         {% csrf_token %}
         <h1 id="head">Attendance.</h1>
@@ -34,9 +34,11 @@
         <select id="Activity" name="Activity" required>
             <option value="*">*********</option>
             <option value="Rehearsal">Rehearsal</option>
-            <option value="Prayer_Meeting">Prayer Meeting</option>
-            <option value="Midweek_service">Midweek service</option>
-            <option value="other">others</option>
+            <option value="Sunday_Divine">Sunday Divine Service</option>
+            <option value="sunday_prayer">Sunday Prayer Meeting</option>
+            <option value="monday_prayer">Monday Prayer Meeting</option>
+            <option value="Midweek_service">Midweek Service</option>
+            <option value="other">Others</option>
 
         </select>
 

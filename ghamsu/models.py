@@ -98,8 +98,17 @@ class RehearsalAttendance(models.Model):
     present_user = models.ManyToManyField(Member, related_name='rehearsal_members')
     history = HistoricalRecords()
 
+    def __str__(self):
+        return f'{self.present_user.name} - Was Present Today - {self.date}'
+
+    def present_user_name(self):
+        return self.present_user.name
 
 
+class SundayDivineServiceAttendance(models.Model):
+    date = models.DateField(auto_now_add=True)
+    present_user = models.ManyToManyField(Member, related_name='sunday_divine_members')
+    history = HistoricalRecords()
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -108,11 +117,10 @@ class RehearsalAttendance(models.Model):
         return self.present_user.name
 
 
-class SundayServiceAttendance(models.Model):
+class SundayPrayerMeetingAttendance(models.Model):
     date = models.DateField(auto_now_add=True)
-    present_user = models.ManyToManyField(Member, related_name='sunday_members')
+    present_user = models.ManyToManyField(Member, related_name='sunday_prayer_members')
     history = HistoricalRecords()
-
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -126,6 +134,17 @@ class MondayPrayerMeetingAttendance(models.Model):
     present_user = models.ManyToManyField(Member, related_name='monday_members')
     history = HistoricalRecords()
 
+    def __str__(self):
+        return f'{self.present_user.name} - Was Present Today - {self.date}'
+
+    def present_user_name(self):
+        return self.present_user.name
+
+
+class MidweekServiceAttendance(models.Model):
+    date = models.DateField(auto_now_add=True)
+    present_user = models.ManyToManyField(Member, related_name='midweek_service_members')
+    history = HistoricalRecords()
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -138,7 +157,6 @@ class OtherAttendance(models.Model):
     date = models.DateField(auto_now_add=True)
     present_user = models.ManyToManyField(Member, related_name='other_members')
     history = HistoricalRecords()
-
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'

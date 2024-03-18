@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import (Member, SundayServiceAttendance, RehearsalAttendance, MondayPrayerMeetingAttendance,
-                     OtherAttendance, BirthdaysThisMonth, BirthdaysToday, Associate)
+from .models import (Member, SundayDivineServiceAttendance, SundayPrayerMeetingAttendance, RehearsalAttendance,
+                     MondayPrayerMeetingAttendance, OtherAttendance, BirthdaysThisMonth, BirthdaysToday,
+                     MidweekServiceAttendance, Associate)
 from simple_history.admin import SimpleHistoryAdmin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -9,9 +10,9 @@ from django.utils.timezone import now
 from django.http import HttpResponseRedirect
 
 
-admin.site.site_header = 'GHAMSU UCC CHOIR'
+admin.site.site_header = 'GHAMSU UCC CHOIR DATABASE'
 admin.site.site_title = 'GHAMSU UCC CHOIR'
-admin.site.index_title = 'GHAMSU UCC CHOIR ADMINISTRATION'
+admin.site.index_title = 'GHAMSU UCC CHOIR DATABASE ADMINISTRATION'
 
 
 class MemberResource(resources.ModelResource):
@@ -28,7 +29,7 @@ class MemberAdmin(SimpleHistoryAdmin, ImportExportModelAdmin, admin.ModelAdmin):
     list_per_page = 25
     list_filter = ['part', 'level',  'location']
     search_fields = ('name__icontains', 'mobile_number__icontains', 'level__icontains', 'location__icontains',)
-    ordering = ['name', 'level']
+    ordering = ['birth_date__month', 'name', 'level']
     #readonly_fields = ()
     resource_classes = [MemberResource]
 
@@ -168,8 +169,8 @@ class RehearsalAttendanceAdmin(admin.ModelAdmin):
         return ", ".join(member.part for member in obj.present_user.all())
 
 
-class SundayServiceUsersInline(admin.TabularInline):
-    model = SundayServiceAttendance.present_user.through
+class SundayDivineServiceUsersInline(admin.TabularInline):
+    model = SundayDivineServiceAttendance.present_user.through
     extra = 0
     can_delete = False
     fields = ('member', 'member_part')
@@ -181,14 +182,45 @@ class SundayServiceUsersInline(admin.TabularInline):
         return obj.member.part
 
 
-@admin.register(SundayServiceAttendance)
-class SundayServiceAttendanceAdmin(admin.ModelAdmin):
+@admin.register(SundayDivineServiceAttendance)
+class SundayDivineServiceAttendanceAdmin(admin.ModelAdmin):
     autocomplete_fields = ('present_user',)
     list_display = ['present_user_name', 'member_part', 'date']
     list_per_page = 25
     ordering = ['-date']
-    inlines = [SundayServiceUsersInline]
+    inlines = [SundayDivineServiceUsersInline]
     list_filter = ('present_user__part', 'date')
+
+    def present_user_name(self, obj):
+        return "  |  ".join(member.name for member in obj.present_user.all())
+
+    @admin.display(ordering=['member_part'])
+    def member_part(self, obj):
+        return ", ".join(member.part for member in obj.present_user.all())
+
+
+class SundayPrayerMeetingUsersInline(admin.TabularInline):
+    model = SundayPrayerMeetingAttendance.present_user.through
+    extra = 0
+    can_delete = False
+    fields = ('member', 'member_part')
+    readonly_fields = ('member_part',)
+    list_filter = ('member_part',)
+    autocomplete_fields = ('member',)
+
+    def member_part(self, obj):
+        return obj.member.part
+
+
+@admin.register(SundayPrayerMeetingAttendance)
+class SundayPrayerMeetingAttendanceAdmin(admin.ModelAdmin):
+    autocomplete_fields = ('present_user',)
+    list_display = ['present_user_name', 'member_part', 'date']
+    list_per_page = 25
+    ordering = ['-date']
+    inlines = [SundayPrayerMeetingUsersInline]
+    list_filter = ('present_user__part', 'date')
+
     def present_user_name(self, obj):
         return "  |  ".join(member.name for member in obj.present_user.all())
 
@@ -218,6 +250,36 @@ class MondayPrayerMeetingAttendanceAdmin(admin.ModelAdmin):
     ordering = ['-date']
     inlines = [MondayPrayerMeetingUsersInline]
     list_filter = ('present_user__part', 'date')
+    def present_user_name(self, obj):
+        return "  |  ".join(member.name for member in obj.present_user.all())
+
+    @admin.display(ordering=['member_part'])
+    def member_part(self, obj):
+        return ", ".join(member.part for member in obj.present_user.all())
+
+
+class MidweekServiceUsersInline(admin.TabularInline):
+    model = MidweekServiceAttendance.present_user.through
+    extra = 0
+    can_delete = False
+    fields = ('member', 'member_part')
+    readonly_fields = ('member_part',)
+    list_filter = ('member_part',)
+    autocomplete_fields = ('member',)
+
+    def member_part(self, obj):
+        return obj.member.part
+
+
+@admin.register(MidweekServiceAttendance)
+class MidweekServiceAttendanceAdmin(admin.ModelAdmin):
+    autocomplete_fields = ('present_user',)
+    list_display = ['present_user_name', 'member_part', 'date']
+    list_per_page = 25
+    ordering = ['-date']
+    inlines = [MidweekServiceUsersInline]
+    list_filter = ('present_user__part', 'date')
+
     def present_user_name(self, obj):
         return "  |  ".join(member.name for member in obj.present_user.all())
 

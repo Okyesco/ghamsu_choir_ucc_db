@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import (Member, RehearsalAttendance, SundayServiceAttendance, MondayPrayerMeetingAttendance,
-                     OtherAttendance, BirthdaysToday, BirthdaysThisMonth)
+from .models import (Member, RehearsalAttendance, SundayDivineServiceAttendance, MondayPrayerMeetingAttendance,
+                     SundayPrayerMeetingAttendance, MidweekServiceAttendance, OtherAttendance, BirthdaysToday, BirthdaysThisMonth)
 from django.contrib import messages
-from datetime import date, timedelta, datetime, time
+from datetime import date, datetime, time
 
 
 # Create your views here.
@@ -121,40 +121,61 @@ def attendance_view(request):
                 messages.error(request, "Rehearsal Attendance Already Taken By This User")
                 # return redirect('attendance')
             elif ((activity == 'Rehearsal' and datetime.now().weekday() == 5) and
-                  time(15, 0) <= datetime.now().time() <= time(19, 30)):
+                  time(15, 00) <= datetime.now().time() <= time(19, 30)):
                 today, created = RehearsalAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Rehearsal Attendance Taken Successfully")
 
-            elif (activity == 'Prayer_Meeting' and datetime.now().weekday() == 6 and SundayServiceAttendance.objects.
+            elif (activity == 'Sunday_Divine' and datetime.now().weekday() == 6 and SundayDivineServiceAttendance.objects.
                     filter(present_user=user).exists()):
-                messages.error(request, "Prayer Meeting Attendance Already Taken By This User")
+                messages.error(request, "Sunday Divine Service Attendance Already Taken By This User")
                 return redirect('attendance')
-            elif ((activity == 'Prayer_Meeting' and datetime.now().weekday() == 6) and
-                  (time(18, 0) <= datetime.now().time() <= time(20, 30))):
-                today, created = SundayServiceAttendance.objects.get_or_create(date=date.today())
+            elif ((activity == 'Sunday_Divine' and datetime.now().weekday() == 6) and
+                  (time(6, 00) <= datetime.now().time() <= time(9, 30))):
+                today, created = SundayDivineServiceAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
-                messages.success(request, "Prayer Meeting Attendance Taken Successfully")
+                messages.success(request, "Sunday Divine Service Attendance Taken Successfully")
                 return redirect('attendance')
 
-            elif ((activity == 'Midweek_service' and datetime.now().weekday() == 0) and MondayPrayerMeetingAttendance.
+            elif ((activity == 'sunday_prayer' and datetime.now().weekday() == 6) and SundayPrayerMeetingAttendance.
                     objects.filter(present_user=user).exists()):
-                messages.error(request, "Midweek Service Attendance Already Taken By This User")
+                messages.error(request, "Sunday Prayer Meeting Attendance Already Taken By This User")
                 return redirect('attendance')
-            elif ((activity == 'Midweek_service' and datetime.now().weekday() == 0) and
+            elif ((activity == 'sunday_prayer' and datetime.now().weekday() == 6) and
+                  (time(18, 00) <= datetime.now().time() <= time(20, 30))):
+                today, created = SundayPrayerMeetingAttendance.objects.get_or_create(date=date.today())
+                today.present_user.add(user)
+                messages.success(request, "Sunday Prayer Meeting Attendance Taken Successfully")
+
+            elif ((activity == 'monday_prayer' and datetime.now().weekday() == 0) and MondayPrayerMeetingAttendance.
+                    objects.filter(present_user=user).exists()):
+                messages.error(request, "Monday Prayer Meeting Attendance Already Taken By This User")
+                return redirect('attendance')
+            elif ((activity == 'monday_prayer' and datetime.now().weekday() == 0) and
                   (time(18, 30) <= datetime.now().time() <= time(20, 30))):
                 today, created = MondayPrayerMeetingAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
+                messages.success(request, "Monday Prayer Meeting Attendance Taken Successfully")
+
+            elif ((activity == 'Midweek_service' and datetime.now().weekday() == 3) and MidweekServiceAttendance.
+                    objects.filter(present_user=user).exists()):
+                messages.error(request, "Midweek Service Attendance Already Taken By This User")
+                return redirect('attendance')
+            elif ((activity == 'Midweek_service' and datetime.now().weekday() == 3) and
+                  (time(19, 00) <= datetime.now().time() <= time(21, 30))):
+                today, created = MidweekServiceAttendance.objects.get_or_create(date=date.today())
+                today.present_user.add(user)
                 messages.success(request, "Midweek Service Attendance Taken Successfully")
 
-            elif activity == 'Other' and OtherAttendance.objects.filter(present_user=user).exists():
+            elif activity == 'other' and OtherAttendance.objects.filter(present_user=user).exists():
                 messages.error(request, "Attendance Already Taken By This User")
                 return redirect('attendance')
-            elif activity == 'Other' and not (OtherAttendance.objects.filter(present_user=user).exists()):
+            #elif activity == 'other' and not (OtherAttendance.objects.filter(present_user=user).exists()):
+            elif activity == 'other':
                 today, created = OtherAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Attendance Taken Successfully")
-                return redirect('attendance')
+                #return redirect('attendance')
 
             elif activity == '*':
                 messages.error(request, "Invalid Activity Selection")
