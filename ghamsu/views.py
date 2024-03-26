@@ -119,12 +119,13 @@ def attendance_view(request):
             if (activity == 'Rehearsal' and datetime.now().weekday() == 5 and RehearsalAttendance.objects.
                     filter(present_user=user).exists()):
                 messages.error(request, "Rehearsal Attendance Already Taken By This User")
-                # return redirect('attendance')
+                return redirect('attendance')
             elif ((activity == 'Rehearsal' and datetime.now().weekday() == 5) and
                   time(15, 00) <= datetime.now().time() <= time(19, 30)):
                 today, created = RehearsalAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Rehearsal Attendance Taken Successfully")
+                return redirect('attendance')
 
             elif (activity == 'Sunday_Divine' and datetime.now().weekday() == 6 and SundayDivineServiceAttendance.objects.
                     filter(present_user=user).exists()):
@@ -146,6 +147,7 @@ def attendance_view(request):
                 today, created = SundayPrayerMeetingAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Sunday Prayer Meeting Attendance Taken Successfully")
+                return redirect('attendance')
 
             elif ((activity == 'monday_prayer' and datetime.now().weekday() == 0) and MondayPrayerMeetingAttendance.
                     objects.filter(present_user=user).exists()):
@@ -156,6 +158,7 @@ def attendance_view(request):
                 today, created = MondayPrayerMeetingAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Monday Prayer Meeting Attendance Taken Successfully")
+                return redirect('attendance')
 
             elif ((activity == 'Midweek_service' and datetime.now().weekday() == 3) and MidweekServiceAttendance.
                     objects.filter(present_user=user).exists()):
@@ -166,16 +169,25 @@ def attendance_view(request):
                 today, created = MidweekServiceAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Midweek Service Attendance Taken Successfully")
+                return redirect('attendance')
 
-            elif ((activity == 'other' and OtherAttendance.objects.filter(present_user=user).exists()) and
-                  (OtherAttendance.objects.filter(date=datetime.now()).exists())):
+            elif activity == 'other' and OtherAttendance.objects.filter(present_user=user, date=date.today()).exists():
                 messages.error(request, "Attendance Already Taken By This User")
                 return redirect('attendance')
-            elif activity == 'other' and not (OtherAttendance.objects.filter(date=datetime.now()).exists()):
+
+            elif activity == 'other':  # Assuming attendance is allowed once per day
                 today, created = OtherAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Attendance Taken Successfully")
-                # return redirect('attendance')
+            # elif ((activity == 'other' and OtherAttendance.objects.filter(present_user=user).exists()) and
+            #       (OtherAttendance.objects.filter(date=datetime.now()).exists())):
+            #     messages.error(request, "Attendance Already Taken By This User")
+            #     return redirect('attendance')
+            # elif activity == 'other' and not (OtherAttendance.objects.filter(date=datetime.now()).exists()):
+            #     today, created = OtherAttendance.objects.get_or_create(date=date.today())
+            #     today.present_user.add(user)
+            #     messages.success(request, "Attendance Taken Successfully")
+            #     # return redirect('attendance')
 
             elif activity == '*':
                 messages.error(request, "Invalid Activity Selection")
