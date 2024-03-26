@@ -15,7 +15,6 @@ django-background-tasks==1.2.5
 django-compat==1.0.15
 django-environ==0.11.2
 django-import-export==3.3.7
-django-jazzmin==2.6.0
 django-lockdown==4.0.0
 django-simple-history==3.5.0
 django-toggle-m2m==0.0.6
