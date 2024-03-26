@@ -2,13 +2,28 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 from datetime import datetime
 
-
 # Create your models here.
+
+LEVEL_CHOICES = [
+    ('100', '100'),
+    ('200', '200'),
+    ('300', '300'),
+    ('400', '400'),
+    ('500', '500'),
+    ('600', '600')
+]
+
+COMPLETION_YEAR_CHOICES = [
+    ('400', '400'),
+    ('600', '600')
+]
+
+
 class Member(models.Model):
-    #user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
+    # user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
     name = models.CharField(max_length=255, blank=False, null=False)
-    level = models.CharField(max_length=255, blank=False, null=False)
-    level_of_completion = models.CharField(max_length=255, blank=False, null=False)
+    level = models.CharField(max_length=255, choices=LEVEL_CHOICES, blank=False, null=False)
+    level_of_completion = models.CharField(max_length=255, choices=COMPLETION_YEAR_CHOICES, blank=False, null=False)
     birth_date = models.DateField(blank=False, null=False)
     part = models.CharField(max_length=255, blank=False, null=False)
     programme = models.CharField(max_length=255, blank=False, null=False)
@@ -34,8 +49,6 @@ class Member(models.Model):
 class BirthdaysThisMonth(models.Model):
     user = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='birthdays_monthly')
     history = HistoricalRecords()
-
-
 
     def __str__(self):
         return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
@@ -65,8 +78,6 @@ class BirthdaysThisMonth(models.Model):
 class BirthdaysToday(models.Model):
     user = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='birthdays_today')
     history = HistoricalRecords()
-
-
 
     def __str__(self):
         return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
@@ -166,7 +177,7 @@ class OtherAttendance(models.Model):
 
 
 class Associate(models.Model):
-    #user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
+    # user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
     name = models.CharField(max_length=255, blank=False, null=False)
     level = models.CharField(max_length=255, blank=False, null=False)
     level_of_completion = models.CharField(max_length=255, blank=False, null=False)
@@ -192,10 +203,54 @@ class Associate(models.Model):
         return 'Completed'
 
 
+class AssociatesBirthdaysThisMonth(models.Model):
+    user = models.ForeignKey(Associate, on_delete=models.CASCADE, related_name='associate_birthdays_monthly')
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
+
+    def name(self):
+        return self.user.name
+
+    def birth_date(self):
+        return self.user.birth_date
+
+    def part(self):
+        return self.user.part
+
+    def mobile_number(self):
+        return self.user.mobile_number
+
+    def location(self):
+        return self.user.location
+
+    def user_id(self):
+        return self.user.user_id
 
 
+class AssociatesBirthdaysToday(models.Model):
+    user = models.ForeignKey(Associate, on_delete=models.CASCADE, related_name='associate_birthdays_today')
+    history = HistoricalRecords()
 
+    def __str__(self):
+        return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
 
+    def user_name(self):
+        return self.user.name
 
+    def user_birth_date(self):
+        return self.user.birth_date
 
+    def user_part(self):
+        return self.user.part
+
+    def user_mobile_number(self):
+        return self.user.mobile_number
+
+    def user_location(self):
+        return self.user.location
+
+    def user_user_id(self):
+        return self.user.user_id
 

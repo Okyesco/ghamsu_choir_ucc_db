@@ -167,15 +167,15 @@ def attendance_view(request):
                 today.present_user.add(user)
                 messages.success(request, "Midweek Service Attendance Taken Successfully")
 
-            elif activity == 'other' and OtherAttendance.objects.filter(present_user=user).exists():
+            elif ((activity == 'other' and OtherAttendance.objects.filter(present_user=user).exists()) and
+                  (OtherAttendance.objects.filter(date=datetime.now()).exists())):
                 messages.error(request, "Attendance Already Taken By This User")
                 return redirect('attendance')
-            #elif activity == 'other' and not (OtherAttendance.objects.filter(present_user=user).exists()):
-            elif activity == 'other':
+            elif activity == 'other' and not (OtherAttendance.objects.filter(date=datetime.now()).exists()):
                 today, created = OtherAttendance.objects.get_or_create(date=date.today())
                 today.present_user.add(user)
                 messages.success(request, "Attendance Taken Successfully")
-                #return redirect('attendance')
+                # return redirect('attendance')
 
             elif activity == '*':
                 messages.error(request, "Invalid Activity Selection")
@@ -190,22 +190,3 @@ def attendance_view(request):
 
     return render(request, 'attendance.html')
 
-
-def birthdays_today(request):
-    today = date.today()
-
-    birthdays = Member.objects.filter(birth_date__month=today.month, birth_date__day=today.day)
-    for member in birthdays:
-        birthday = BirthdaysToday()
-        birthday.user = member
-        birthday.save()
-
-
-def birthdays_this_month(request):
-    today = date.today()
-
-    birthdays = Member.objects.filter(birth_date__month=today.month)
-    for member in birthdays:
-        birthday = BirthdaysThisMonth()
-        birthday.user = member
-        birthday.save()

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (Member, SundayDivineServiceAttendance, SundayPrayerMeetingAttendance, RehearsalAttendance,
                      MondayPrayerMeetingAttendance, OtherAttendance, BirthdaysThisMonth, BirthdaysToday,
-                     MidweekServiceAttendance, Associate)
+                     MidweekServiceAttendance, Associate, AssociatesBirthdaysToday, AssociatesBirthdaysThisMonth)
 from simple_history.admin import SimpleHistoryAdmin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -306,7 +306,7 @@ class OtherAttendanceAdmin(admin.ModelAdmin):
     autocomplete_fields = ('present_user',)
     list_display = ['present_user_name', 'member_part', 'date']
     list_per_page = 25
-    ordering = ['date']
+    ordering = ['-date']
     inlines = [OtherAttendanceInline]
     list_filter = ('present_user__part', 'date')
 
@@ -327,13 +327,88 @@ class AssociateResource(resources.ModelResource):
 
 @admin.register(Associate)
 class AssociateAdmin(SimpleHistoryAdmin, ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ['name', 'birth_date', 'level', 'part', 'mobile_number', 'location']
+    actions = ['update_birthdays']
+    list_display = ['name', 'birth_date', 'part', 'mobile_number', 'location']
     list_per_page = 25
     list_filter = ['part', 'birth_date', 'location']
     search_fields = ('name__icontains', 'mobile_number__icontains', 'location__icontains',)
-    ordering = ['name']
+    ordering = ['birth_date', 'name']
     readonly_fields = ('user_id',)
     resource_classes = [AssociateResource]
+
+    @admin.action(description="Update Birthdays")
+    def update_birthdays(self, request, queryset):
+        today = now().date()
+
+        birthdays_today = Associate.objects.filter(
+            Q(birth_date__month=today.month) & Q(birth_date__day=today.day)
+        )
+
+        for member in birthdays_today:
+            if not AssociatesBirthdaysToday.objects.filter(user=member).exists():
+                birthday = AssociatesBirthdaysToday(user=member)
+                birthday.save()
+
+        birthdays_month = Associate.objects.filter(birth_date__month=today.month)
+
+        for member in birthdays_month:
+            if not AssociatesBirthdaysThisMonth.objects.filter(user=member).exists():
+                birthday = AssociatesBirthdaysThisMonth(user=member)
+                birthday.save()
+
+        self.message_user(request, "Birthdays updated successfully")
+
+    change_form_template = "button_form.html"
+
+
+class AssociatesBirthdayResource(resources.ModelResource):
+    class Meta:
+        model = AssociatesBirthdaysThisMonth
+        fields = ['user__name', 'user__birth_date', 'user__level_of_completion', 'user__part',
+                  'user__mobile_number', 'user__location']
+
+
+@admin.register(AssociatesBirthdaysThisMonth)
+class AssociatesBirthdaysMonthAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    actions = ['delete_past_birthdays']
+    list_display = ['name', 'birth_date', 'part', 'mobile_number', 'location']
+    list_per_page = 25
+    list_filter = ['user__birth_date', 'user__location']
+    search_fields = ('name__icontains', 'mobile_number__icontains', 'level__icontains',)
+    ordering = ['user__birth_date']
+    readonly_fields = ('user_id',)
+    resource_classes = [AssociatesBirthdayResource]
+
+    @admin.action(description="Remove Past Birthdays")
+    def delete_past_birthdays(self, request, queryset):
+        today = now().date()
+        old_birthdays = AssociatesBirthdaysThisMonth.objects.filter(user__birth_date__month__lt=today.month)
+        count = old_birthdays.count()
+        old_birthdays.delete()
+
+        self.message_user(request, f"{count} past birthdays deleted.")
+
+
+@admin.register(AssociatesBirthdaysToday)
+class AssociatesBirthdaysTodayAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    actions = ['delete_past_birthdays']
+    list_display = ['user_name', 'user_birth_date', 'user_part', 'user_mobile_number', 'user_location']
+    list_per_page = 25
+    list_filter = ['user__part', 'user__birth_date', 'user__location']
+    search_fields = ('user_name__icontains', 'user_mobile_number__icontains',)
+    ordering = ['user__name']
+    readonly_fields = ('user_user_id',)
+    resource_classes = [AssociatesBirthdayResource]
+
+    @admin.action(description="Remove Past Birthdays")
+    def delete_past_birthdays(self, request, queryset):
+        today = now().date()
+        old_birthdays = AssociatesBirthdaysToday.objects.filter(user__birth_date__lt=today)
+        count = old_birthdays.count()
+        old_birthdays.delete()
+
+        self.message_user(request, f"{count} past birthdays deleted.")
+
 
 
 
