@@ -40,8 +40,6 @@ pbr==5.11.1
 pefile==2023.2.7
 Pillow==9.5.0
 platformdirs==3.5.0
-psycopg-binary==3.1.18
-psycopg2==2.9.6
 pycparser==2.21
 pyinstaller-hooks-contrib==2023.3
 pyodbc==4.0.39
