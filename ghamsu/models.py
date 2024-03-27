@@ -27,7 +27,6 @@ PARTY_CHOICES = [
 
 
 class Member(models.Model):
-    # user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
     name = models.CharField(max_length=255, blank=False, null=False)
     level = models.CharField(max_length=255, choices=LEVEL_CHOICES, blank=False, null=False)
     level_of_completion = models.CharField(max_length=255, choices=COMPLETION_YEAR_CHOICES, blank=False, null=False)

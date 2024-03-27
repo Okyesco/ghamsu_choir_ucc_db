@@ -358,7 +358,7 @@ class AssociateAdmin(SimpleHistoryAdmin, ImportExportModelAdmin, admin.ModelAdmi
 
         self.message_user(request, "Birthdays updated successfully")
 
-    change_form_template = "button_form.html"
+    #change_form_template = "button_form.html"
 
 
 class AssociatesBirthdayResource(resources.ModelResource):
