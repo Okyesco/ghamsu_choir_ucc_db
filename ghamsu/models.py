@@ -18,6 +18,13 @@ COMPLETION_YEAR_CHOICES = [
     ('600', '600')
 ]
 
+PARTY_CHOICES = [
+    ('Tenor', 'Tenor'),
+    ('Soprano', 'Soprano'),
+    ('Alto', 'Alto'),
+    ('Bass', 'Bass')
+]
+
 
 class Member(models.Model):
     # user_id = models.CharField(max_length=10, primary_key=True, blank=False, null=False, unique=True)
@@ -25,7 +32,7 @@ class Member(models.Model):
     level = models.CharField(max_length=255, choices=LEVEL_CHOICES, blank=False, null=False)
     level_of_completion = models.CharField(max_length=255, choices=COMPLETION_YEAR_CHOICES, blank=False, null=False)
     birth_date = models.DateField(blank=False, null=False)
-    part = models.CharField(max_length=255, blank=False, null=False)
+    part = models.CharField(max_length=255,choices=PARTY_CHOICES, blank=False, null=False)
     programme = models.CharField(max_length=255, blank=False, null=False)
     location = models.CharField(max_length=255, blank=False, null=False)
     hall = models.CharField(max_length=255, blank=False, null=False)
@@ -39,6 +46,10 @@ class Member(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'MEMBERS'
+
+
     def __str__(self):
         return f'{self.name}'
 
@@ -49,6 +60,9 @@ class Member(models.Model):
 class BirthdaysThisMonth(models.Model):
     user = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='birthdays_monthly')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Members Birthdays This Month'
 
     def __str__(self):
         return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
@@ -79,8 +93,11 @@ class BirthdaysToday(models.Model):
     user = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='birthdays_today')
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'Members Birthdays Today'
+
     def __str__(self):
-        return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
+        return f'{self.user.name} - Birthday today on - {self.user.birth_date}'
 
     def user_name(self):
         return self.user.name
@@ -109,6 +126,9 @@ class RehearsalAttendance(models.Model):
     present_user = models.ManyToManyField(Member, related_name='rehearsal_members')
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'Rehearsal Attendance'
+
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
 
@@ -120,6 +140,9 @@ class SundayDivineServiceAttendance(models.Model):
     date = models.DateField(auto_now_add=True)
     present_user = models.ManyToManyField(Member, related_name='sunday_divine_members')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Sunday DivineService Attendance'
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -133,6 +156,9 @@ class SundayPrayerMeetingAttendance(models.Model):
     present_user = models.ManyToManyField(Member, related_name='sunday_prayer_members')
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'Sunday Prayer Meeting Attendance'
+
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
 
@@ -144,6 +170,9 @@ class MondayPrayerMeetingAttendance(models.Model):
     date = models.DateField(auto_now_add=True)
     present_user = models.ManyToManyField(Member, related_name='monday_members')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Monday Prayer Meeting Attendance'
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -157,6 +186,9 @@ class MidweekServiceAttendance(models.Model):
     present_user = models.ManyToManyField(Member, related_name='midweek_service_members')
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'Midweek Service Attendance'
+
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
 
@@ -168,6 +200,9 @@ class OtherAttendance(models.Model):
     date = models.DateField(auto_now_add=True)
     present_user = models.ManyToManyField(Member, related_name='other_members')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Other Attendance'
 
     def __str__(self):
         return f'{self.present_user.name} - Was Present Today - {self.date}'
@@ -196,6 +231,9 @@ class Associate(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     history = HistoricalRecords()
 
+    class Meta:
+        verbose_name_plural = 'ASSOCIATES'
+
     def __str__(self):
         return f'{self.name} - Became an Associate on {self.created_at}'
 
@@ -206,6 +244,9 @@ class Associate(models.Model):
 class AssociatesBirthdaysThisMonth(models.Model):
     user = models.ForeignKey(Associate, on_delete=models.CASCADE, related_name='associate_birthdays_monthly')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Associates Birthdays This Month'
 
     def __str__(self):
         return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
@@ -232,6 +273,9 @@ class AssociatesBirthdaysThisMonth(models.Model):
 class AssociatesBirthdaysToday(models.Model):
     user = models.ForeignKey(Associate, on_delete=models.CASCADE, related_name='associate_birthdays_today')
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = 'Associates Birthdays Today'
 
     def __str__(self):
         return f'{self.user.name} - Birthday is this month on - {self.user.birth_date}'
